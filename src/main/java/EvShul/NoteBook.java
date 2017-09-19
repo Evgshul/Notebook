@@ -5,18 +5,25 @@ import com.sun.xml.internal.ws.api.server.EndpointReferenceExtensionContributor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class NoteBook {
     private List<Record> records = new ArrayList<Record>(); // sohranjaem dannie v massiv
 
     @Command
-    public void create ( String firstName,String lastName, String phone ){// sozdali metod
+    public void create(String firstName, String lastName, String adress, String email, String phone) {// sozdali metod
+
         Record r = new Record(); //sozdali novuju zapisj Record i polozhili v peremenuju "r" sozdalosj ID
         r.setFirstname(firstName);// ustanovi imja
         r.setLastname(lastName);
+        r.setAdress(adress);
+        r.setEmail(email);
         r.setPhone(phone);
+
         records.add(r);// dobavili records v spisok
-    }
+}
+
+
     @Command
     public List<Record> list() {
         return records;

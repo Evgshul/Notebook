@@ -6,6 +6,8 @@ public class Record {
     private String firstname;
     private String lastname;
     private String phone;
+    private String adress;
+    private String email;
 
     public Record() {
         counter++;
@@ -40,13 +42,31 @@ public class Record {
         this.phone = phone;
     }
 
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
-    public String toString() {// dobavili cherez generate + toString
+    public String toString() {
         return "Record{" +
                 "id=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", phone='" + phone + '\'' +
+                ", adress='" + adress + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
