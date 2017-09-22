@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Person extends Record {
+public class Person extends Note {
 
     private String firstname;
     private String lastname;
-    private List<String> phones = new ArrayList<>();// dobavili spisok
     private String adress;
     private String email;
+    private List<String> phones = new ArrayList<>();// dobavili spisok
 
     public String getFirstname() {
         return firstname;
@@ -26,15 +26,6 @@ public class Person extends Record {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public List<String> getPhones() {
-        return phones;
-    }
-
-    public void addPhones(String... phones) {
-
-        Collections.addAll(this.phones, phones);
     }
 
     public String getAdress() {
@@ -53,15 +44,24 @@ public class Person extends Record {
         this.email = email;
     }
 
+    public List<String> getPhones() {
+        return phones;
+    }
+
+    public void addPhones(String... phones) {
+        Collections.addAll(this.phones, phones);
+    }
+
     @Override
     public String toString() {
         return "Person{" +
                 "id=" + getId() +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", phones='" + phones + '\'' +
                 ", adress='" + adress + '\'' +
                 ", email='" + email + '\'' +
+                ", text='" + getText() + '\'' +
+                ", phones='" + phones + '\'' +
                 '}';
     }
 }

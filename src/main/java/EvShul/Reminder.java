@@ -16,7 +16,7 @@ public class Reminder extends Note {
     public String toString() {// kak object vivoditsja na ekran
         return "Reminder{" +
                 "id=" + getId() +
-                "text='" + getText() +
+                "text='" + getText() + '\'' +
                 "time='" + time + '\'' +
                 '}';
     }

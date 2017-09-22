@@ -1,6 +1,6 @@
 package EvShul;
 
-public class Note extends Record {
+public class Note extends Record{
 
     private String text;
 
