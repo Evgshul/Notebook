@@ -60,8 +60,35 @@ public class Person extends Note {
                 ", lastname='" + lastname + '\'' +
                 ", adress='" + adress + '\'' +
                 ", email='" + email + '\'' +
-                ", text='" + getText() + '\'' +
+                ", text='" + getText() + '\'' +/// poprobovatj text na note pomenjatj
                 ", phones='" + phones + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean contains(String str) {
+
+        String str1 = str.toLowerCase();
+        if (super.contains(str1)) {
+            return true;
+        } else if (firstname.toLowerCase().contains(str1)) {
+            return true;
+        } else if (lastname.toLowerCase().contains(str1)) {
+            return true;
+        } else if (adress.toLowerCase().contains(str1)) {
+            return true;
+        } else if (email.toLowerCase().contains(str1)) {
+            return true;
+        } else {
+            for (String p : phones) {
+                if (p.contains(str1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+
+    }
+
 }

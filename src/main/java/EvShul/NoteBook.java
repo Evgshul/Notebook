@@ -32,13 +32,21 @@ public class NoteBook {
     }
 
     @Command
+    public void createAlarm(String time, String text) {
+
+        Alarm a = new Alarm();
+        a.setTime(time);
+        a.setText(text);
+        records.add(a);
+    }
+
+    @Command
     public void createReminder(String time, String text) {
         Reminder t = new Reminder();
         t.setTime(time);
         t.setText(text);
         records.add(t);
     }
-
     @Command
     public void remove(int id) {/// udalenie po ID
         for (int i = 0; i < records.size(); i++) {
@@ -49,9 +57,20 @@ public class NoteBook {
             }
         }
     }
-
     @Command
     public List<Record> list() {
         return records;
+    }
+
+    @Command
+    public List<Record> find(String str) { /// komanda kot vozvraschaet spisok recordov
+        List<Record> result = new ArrayList<>(); /// sozdajot pustoj spisok
+        for (Record r : records) {
+            if (r.contains(str))
+            {
+                result.add(r); /// dobavljaem v spisok poisk
+            }
+        }
+        return result;
     }
 }
