@@ -8,8 +8,6 @@ import java.util.List;
 public class Alarm extends Note implements Expirable {
 
     private String time;
-
-
     public String getTime() {
 
         return time;
@@ -36,6 +34,11 @@ public class Alarm extends Note implements Expirable {
                 "text='" + getText() + '\'' +
                 "time='" + time + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean isExpired() {
+        return false;
     }
 }
 
