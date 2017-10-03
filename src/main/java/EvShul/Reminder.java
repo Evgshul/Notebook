@@ -1,23 +1,38 @@
 package EvShul;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Reminder extends Note implements Expirable {
 
-    public String time;
+    private static final DateTimeFormatter formatter =
+            DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
 
-    public String getTime() {
+    public LocalDateTime time;
+
+    public String getTimeAsString() {
+        LocalDateTime dt = getTime();
+        return dt.format(formatter);
+    }
+    public void setTimeAsString(String str) {
+        LocalDateTime dt = LocalDateTime.parse(str, formatter);
+        setTime(dt);
+    }
+
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
     @Override
-    public String toString() {// kak object vivoditsja na ekran
+    public String toString() {
         return "Reminder{" +
-                "id=" + getId() +
+                "id=" + getId() + '\'' +
                 "text='" + getText() + '\'' +
-                "time='" + time + '\'' +
+                "time=" + getTimeAsString() + '\'' +
                 '}';
     }
 
@@ -26,7 +41,7 @@ public class Reminder extends Note implements Expirable {
         String s = str.toLowerCase();
         if (super.contains(s)) {
             return true;
-        } else if (time.toLowerCase().contains(s)) {
+        } else if (getTimeAsString().toLowerCase().contains(s)) {
             return true;
         }
         return false;
@@ -34,6 +49,12 @@ public class Reminder extends Note implements Expirable {
 
     @Override
     public boolean isExpired() {
-        return false;
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isAfter(time)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
+

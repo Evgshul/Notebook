@@ -3,6 +3,7 @@ package EvShul;
 import asg.cliche.Command;
 import com.sun.xml.internal.ws.api.server.EndpointReferenceExtensionContributor;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -35,18 +36,19 @@ public class NoteBook {
     public void createAlarm(String time, String text) {
 
         Alarm a = new Alarm();
-        a.setTime(time);
         a.setText(text);
+        a.setTimeAsString(time);
         records.add(a);
     }
 
     @Command
-    public void createReminder(String time, String text) {
-        Reminder t = new Reminder();
-        t.setTime(time);
-        t.setText(text);
-        records.add(t);
+    public void createReminder(String text, String time) {
+        Reminder r = new Reminder();
+        r.setText(text);
+        r.setTimeAsString(time);
+        records.add(r);
     }
+
     @Command
     public void remove(int id) {/// udalenie po ID
         for (int i = 0; i < records.size(); i++) {
@@ -57,6 +59,7 @@ public class NoteBook {
             }
         }
     }
+
     @Command
     public List<Record> list() {
         return records;
@@ -66,11 +69,25 @@ public class NoteBook {
     public List<Record> find(String str) { /// komanda kot vozvraschaet spisok recordov
         List<Record> result = new ArrayList<>(); /// sozdajot pustoj spisok
         for (Record r : records) {
-            if (r.contains(str))
-            {
+            if (r.contains(str)) {
                 result.add(r); /// dobavljaem v spisok poisk
             }
         }
         return result;
     }
+
+    @Command
+    public List<Record> listExpired() {
+        List<Record> result = new ArrayList<>();
+        for (Record r : records) {
+            if (r instanceof Expirable) {
+                Expirable e = (Expirable) r;
+                if (e.isExpired()) {
+                    result.add(r);
+                }
+            }
+        }
+        return result;
+    }
+
 }
