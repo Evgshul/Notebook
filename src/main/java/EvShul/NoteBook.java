@@ -4,12 +4,11 @@ import asg.cliche.Command;
 import com.sun.xml.internal.ws.api.server.EndpointReferenceExtensionContributor;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class NoteBook {
-    private List<Record> records = new ArrayList<Record>(); // sohranjaem dannie v massiv
+    private NavigableMap<Integer, Record> records = new TreeMap<>(); // sohranjaem dannie v massiv
 
     @Command
     public void createPerson(String firstName, String lastName, String adress, String email, String text, String... phones) {// sozdali metod
@@ -22,14 +21,14 @@ public class NoteBook {
         r.setText(text);
         r.addPhones(phones);
 
-        records.add(r);// dobavili records v spisok
+        records.put(r.getId(), r);// dobavili records v spisok
     }
 
     @Command
     public void createNote(String text) {
         Note n = new Note();
         n.setText(text);
-        records.add(n);
+        records.put(n.getId(), n);
     }
 
     @Command
@@ -38,7 +37,7 @@ public class NoteBook {
         Alarm a = new Alarm();
         a.setText(text);
         a.setTimeAsString(time);
-        records.add(a);
+        records.put(a.getId(), a);
     }
 
     @Command
@@ -46,40 +45,47 @@ public class NoteBook {
         Reminder r = new Reminder();
         r.setText(text);
         r.setTimeAsString(time);
-        records.add(r);
+        records.put(r.getId(), r);
     }
 
     @Command
-    public void remove(int id) {/// udalenie po ID
-        for (int i = 0; i < records.size(); i++) {
-            Record r = records.get(i);
-            if (r.getId() == id) {
-                records.remove(i);
-                break;
-            }
-        }
+    public void remove(int id) {
+        records.remove(id);
     }
 
+    //@Command
+    //public void remove(int id) {/// udalenie po ID
+    //  for (int i = 0; i < records.size(); i++) {
+    //      Record r = records.get(i);
+    //    if (r.getId() == id) {
+    //      records.remove(i);
+    //    break;
+    //  }
+    //}
+    //}
+
     @Command
-    public List<Record> list() {
-        return records;
+    public Collection<Record> list() {
+        return records.values();
     }
 
     @Command
     public List<Record> find(String str) { /// komanda kot vozvraschaet spisok recordov
-        List<Record> result = new ArrayList<>(); /// sozdajot pustoj spisok
-        for (Record r : records) {
-            if (r.contains(str)) {
-                result.add(r); /// dobavljaem v spisok poisk
-            }
-        }
-        return result;
+        return records.values().stream()
+                .filter(r -> r.contains(str))
+                .collect(Collectors.toList());
+    }
+
+    @Command
+    public Collection<Record> range(int start, int end) {
+        return records.subMap(start, true, end, true)
+                .values();
     }
 
     @Command
     public List<Record> listExpired() {
         List<Record> result = new ArrayList<>();
-        for (Record r : records) {
+        for (Record r : records.values()) {
             if (r instanceof Expirable) {
                 Expirable e = (Expirable) r;
                 if (e.isExpired()) {
